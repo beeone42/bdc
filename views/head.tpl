@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bare - Start Bootstrap Template</title>
+    <title>BDC - {{user_name}}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
@@ -56,7 +56,7 @@
                         <a href="#">Services</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href=" {{ app.get_url('logout') }}">Logout</a>
                     </li>
                 </ul>
             </div>
