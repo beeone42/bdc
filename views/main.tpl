@@ -6,7 +6,7 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
+            <div class="row" style="display: none;">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -103,40 +103,13 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Deals
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Activity
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 
 
-
-<table id="tdeals" class="display" cellspacing="0" width="100%">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>BDCID</th>
-      <th>Descr</th>
-      <th>Creator</th> 
-      <th>State</th>
-   </tr>
-  </thead>
-
-  <tbody>
-      <td>1</td>
-      <td>BLAH</td>
-      <td>ouais</td>
-      <td>moi</td> 
-      <td>en cours</td>
-  </tbody>
-
-  <tfoot>
-      <th>Id</th>
-      <th>BDCID</th>
-      <th>Descr</th>
-      <th>Creator</th> 
-      <th>State</th>
-  </tfoot>
-</table>
+dashboard
 
 
                         </div>

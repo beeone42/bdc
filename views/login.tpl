@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>BDC</title>
+    <title>{{config['title']}} - {{user_name}}</title>
     <!-- Bootstrap Core CSS -->
     <link href="static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->

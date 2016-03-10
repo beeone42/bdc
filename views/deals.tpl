@@ -1,0 +1,77 @@
+% include('head.inc.tpl', title='Page Title')
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Deals</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Deals
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+
+<table id="tdeals" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>BDCID</th>
+      <th>Descr</th>
+      <th>Creator</th> 
+      <th>State</th>
+   </tr>
+  </thead>
+
+  <tbody>
+      <td>1</td>
+      <td>BLAH</td>
+      <td>ouais</td>
+      <td>moi</td> 
+      <td>en cours</td>
+  </tbody>
+
+  <tfoot>
+      <th>Id</th>
+      <th>BDCID</th>
+      <th>Descr</th>
+      <th>Creator</th> 
+      <th>State</th>
+  </tfoot>
+</table>
+
+<script>
+
+function callback()
+{
+    $("#tdeals").DataTable({
+	ajax: {
+	    url: ('{{did}}' == '') ? "/api/deals" : "/api/deals/" + '{{did}}',
+	    type: "GET"
+	},
+	serverSide: false,
+	columns: [
+	    { data: "id" },
+	    { data: "bdcid" },
+	    { data: "description" },
+	    { data: "creator_name" },
+	    { data: "state" }
+	]
+    });
+}
+
+</script>
+
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+
+% include('foot.inc.tpl')

@@ -15,8 +15,8 @@ def fetchall(cursor, query):
 def close(conn):
     conn.close()
 
-def get_deals(cursor):
-    return (fetchall(cursor, """
+def get_deals(cursor, id = 0):
+    q = """
 SELECT
     deals.id,
     deals.bdcid,
@@ -27,4 +27,17 @@ SELECT
 FROM deals
 LEFT JOIN users AS users1 ON users1.id = deals.creator
 LEFT JOIN users AS users2 ON users2.id = deals.validator
-    """))
+    """
+    if (id > 0):
+        q = q + " WHERE deals.id = '" + str(id) + "'"
+    return (fetchall(cursor, q))
+
+def find_next_bdcid(cursor, prefix):
+    q = """
+SELECT
+    deals.bdcid,
+FROM deals
+WHERE deals.bdcid LIKE %s
+    """
+    cursor.execute(q, [prefix + '%'])
+    return (cursor.fetchall())
