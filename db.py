@@ -23,10 +23,13 @@ SELECT
     deals.state,
     deals.description,
     users1.fullname AS creator_name,
-    users2.fullname AS validator_name
+    users2.fullname AS validator_name,
+    sites.name AS site_name,
+    sites.pic AS site_pic
 FROM deals
 LEFT JOIN users AS users1 ON users1.id = deals.creator
 LEFT JOIN users AS users2 ON users2.id = deals.validator
+LEFT JOIN sites ON sites.id = deals.site
     """
     if (id > 0):
         q = q + " WHERE deals.id = '" + str(id) + "'"
