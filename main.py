@@ -30,6 +30,19 @@ def index(session):
     print deals
     return bottle.template('main', app=app, user_name=user_name, deals=deals, config=config);
 
+@app.route('/api/devis', method='GET', name='devis')
+@app.route('/api/devis/', method='GET', name='devis')
+def api_devis(session):
+    devis = db.get_devis(cursor)
+    print devis
+    return dict(data=devis)
+
+@app.route('/api/devis/<did:int>', method='GET')
+def api_devis(did, session):
+    assert isinstance(did, int)
+    devis = db.get_devis(cursor, did)
+    return dict(data=devis)
+
 @app.route('/api/deals', method='GET', name='deals')
 @app.route('/api/deals/', method='GET', name='deals')
 def api_deals(session):
