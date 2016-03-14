@@ -27,11 +27,6 @@
   </thead>
 
   <tbody>
-      <td>1</td>
-      <td>BLAH</td>
-      <td>ouais</td>
-      <td>moi</td> 
-      <td>en cours</td>
   </tbody>
 
   <tfoot>
@@ -54,8 +49,18 @@ function callback()
 	},
 	serverSide: false,
 	columns: [
-	    { data: "id" },
-	    { data: "bdcid" },
+	    { data: "id",
+              	    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+	                $(nTd).html("<a href='/deal/"+oData.id+"'>" + oData.id + "</a>");
+		    }
+	    },
+
+
+	    { data: "bdcid",
+	            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+	                $(nTd).html("<a href='/deal/"+oData.id+"'>" + oData.bdcid + "</a>");
+		    }
+	    },
 	    { data: "description" },
 	    { data: "creator_name" },
 	    { data: "state" }

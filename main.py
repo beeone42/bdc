@@ -9,7 +9,7 @@ def read_config(confname):
         return (data)
 
 app = bottle.app()
-plugin = bottle_session.SessionPlugin(cookie_lifetime=600)
+plugin = bottle_session.SessionPlugin(cookie_lifetime=3600*24*7)
 app.install(plugin)
 config = read_config("config.json")
 print config
@@ -56,7 +56,10 @@ def deal(did, session):
 @app.route('/deal/<did:int>', name='deal')
 def deal(did, session):
     user_name = check_session(session)
-    return bottle.template('deal', app=app, user_name=user_name, deals=deals, config=config, did=did);
+    assert isinstance(did, int)
+    deals = db.get_deals(cursor, did)
+    print deals
+    return bottle.template('deal', app=app, user_name=user_name, deal=deals[0], config=config, did=did);
 
 @app.route('/login', method='GET', name='login')
 def login(session):
