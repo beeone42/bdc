@@ -1,8 +1,8 @@
-import mysql.connector
+import pymysql
 
 def connect(host, user, passwd, base):
-    conn = mysql.connector.connect(host=host,user=user,password=passwd, database=base)
-    cursor = conn.cursor(dictionary=True)
+    conn = pymysql.connect(host=host,user=user,passwd=passwd, database=base, cursorclass=pymysql.cursors.DictCursor)
+    cursor = conn.cursor()
     return (conn, cursor)
 
 def query(cursor, query):
