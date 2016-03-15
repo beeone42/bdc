@@ -28,7 +28,7 @@
     <script src="/static/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     
     <!-- BDC -->
-    <script src="/static/js/bdc.js"></script>
+    <script src="/static/js/project.js"></script>
 
 </body>
 

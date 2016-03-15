@@ -22,7 +22,9 @@ SELECT
     deals.bdcid,
     deals.state,
     deals.description,
+    deals.creator AS creator_id,
     users1.fullname AS creator_name,
+    deals.validator AS validator_id,
     users2.fullname AS validator_name,
     sites.name AS site_name,
     sites.pic AS site_pic
@@ -35,7 +37,7 @@ LEFT JOIN sites ON sites.id = deals.site
         q = q + " WHERE deals.id = '" + str(id) + "'"
     return (fetchall(cursor, q))
 
-def get_devis(cursor, id = 0):
+def get_devis(cursor, did = 0, id = 0):
     q = """
 SELECT
     devis.id,
@@ -52,8 +54,25 @@ FROM devis
 LEFT JOIN deals ON deals.id = devis.deal_id
 LEFT JOIN sites ON sites.id = deals.site
     """
+    if (did > 0):
+        q = q + " WHERE devis.deal_id = '" + str(did) + "'"
+        if (id > 0):
+            q = q + " AND devis.id = '" + str(id) + "'"
+    else:
+        if (id > 0):
+            q = q + " WHERE devis.id = '" + str(id) + "'"
+    return (fetchall(cursor, q))
+
+def get_users(cursor, id = 0):
+    q = """
+SELECT
+    users.id,
+    users.login,
+    users.fullname
+FROM users
+    """
     if (id > 0):
-        q = q + " WHERE devis.id = '" + str(id) + "'"
+        q = q + " WHERE users.id = '" + str(id) + "'"
     return (fetchall(cursor, q))
 
 def find_next_bdcid(cursor, prefix):

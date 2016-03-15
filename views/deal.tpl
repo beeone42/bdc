@@ -1,4 +1,48 @@
 % include('head.inc.tpl', title='Page Title')
+
+<script>
+
+function callback()
+{
+	$("#btn-edit").click(function(){
+	
+		$(".editable").each(function(index, value){
+		    var $input = $("<input>", {
+           	    	id: $(this).attr('id'),
+           	    	val: $(this).text(),
+	            	type: "text"
+		    });
+		    $(this).replaceWith($input);
+		});
+	
+		$(".selectable").each(function(index, value){
+		    v = $(this).text();
+		    var $input = $("<select>", {
+           	    	id: $(this).attr('id')
+		    });
+
+		    var i = 0;
+
+		    % for u in users:
+
+		        var o = new Option("{{u['fullname']}}", "{{u['id']}}");
+		    	$(o).html("{{u['fullname']}}");
+		    	$input.append(o);
+			if ($(this).attr('bid') == {{u['id']}})
+			{
+				$(o).attr("selected", true);
+			}
+			i++;
+
+		    % end		    
+		    $(this).replaceWith($input);
+
+		});
+	});
+}
+
+</script>
+
     <div class="container">
 
 <!-- deal infos header -->
@@ -17,23 +61,23 @@
                     <tbody>
                       <tr>
                         <th>BDCID</th>
-                        <th>{{deal['bdcid']}}</th>
+                        <th><span id='f_bdcid' class='editable'>{{deal['bdcid']}}</span></th>
                       </tr>
                       <tr>
                         <td>Site:</td>
-                        <td>{{deal['site_name']}}</td>
+                        <td><span id='f_site_name' class='editable'>{{deal['site_name']}}</span></td>
                       </tr>
                       <tr>
                         <td>Creator:</td>
-                        <td>{{deal['creator_name']}}</td>
+                        <td><span id='f_creator_name' bid='{{deal['creator_id']}}' class='selectable'>{{deal['creator_name']}}</span></td>
                       </tr>
                       <tr>
                         <td>Validator:</td>
-                        <td>{{deal['validator_name']}}</td>
+                        <td><span id='f_validator_name' bid='{{deal['validator_id']}}' class='selectable'>{{deal['validator_name']}}</span></td>
                       </tr>
 		      <tr>
                         <td>State</td>
-                        <td>{{deal['state']}}</td>
+                        <td><span id='f_state' class='selectable'>{{deal['state']}}</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -43,7 +87,7 @@
             <div class="panel-footer">
               <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
               <span class="pull-right">
-                <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                <a href="#" data-original-title="Edit this entry" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning" id="btn-edit"><i class="glyphicon glyphicon-edit"></i></a>
                 <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
               </span>
             </div><!-- /panel-footer -->
@@ -69,13 +113,17 @@
                         <th>issuer</th>
                         <th>amount</th>
                         <th>date_received</th>
+                        <th>state</th>
                       </tr>
+		      % for d in devis:
                       <tr>
-                        <td>1</td>
-                        <td>ENOTECH</td>
-                        <td>42 euros</td>
-                        <td>2016-03-14</td>
+                        <td>{{d['id']}}</td>
+                        <td>{{d['issuer']}}</td>
+                        <td>{{d['amount']}}</td>
+                        <td>{{d['d_received']}}</td>
+                        <td>{{d['state']}}</td>
                       </tr>
+		      % end
                     </tbody>
                   </table>
                 </div>

@@ -71,8 +71,12 @@ def deal(did, session):
     user_name = check_session(session)
     assert isinstance(did, int)
     deals = db.get_deals(cursor, did)
+    devis = db.get_devis(cursor, did)
+    users = db.get_users(cursor)
     print deals
-    return bottle.template('deal', app=app, user_name=user_name, deal=deals[0], config=config, did=did);
+    print devis
+    print users
+    return bottle.template('deal', app=app, user_name=user_name, deal=deals[0], devis=devis, users=users, config=config, did=did);
 
 @app.route('/login', method='GET', name='login')
 def login(session):
