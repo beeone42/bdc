@@ -75,6 +75,13 @@ FROM users
         q = q + " WHERE users.id = '" + str(id) + "'"
     return (fetchall(cursor, q))
 
+def get_deal_states(cursor):
+    q = "SHOW COLUMNS FROM deals WHERE Field = 'state';"
+    cursor.execute(q)
+    tmp = cursor.fetchall()[0]['Type']
+    return (tmp)
+
+
 def find_next_bdcid(cursor, prefix):
     q = """
 SELECT
