@@ -26,6 +26,7 @@ SELECT
     users1.fullname AS creator_name,
     deals.validator AS validator_id,
     users2.fullname AS validator_name,
+    deals.site AS site_id,
     sites.name AS site_name,
     sites.pic AS site_pic
 FROM deals
@@ -75,11 +76,23 @@ FROM users
         q = q + " WHERE users.id = '" + str(id) + "'"
     return (fetchall(cursor, q))
 
+def get_sites(cursor, id = 0):
+    q = """
+SELECT
+    sites.id,
+    sites.name,
+    sites.pic
+FROM sites
+    """
+    if (id > 0):
+        q = q + " WHERE sites.id = '" + str(id) + "'"
+    return (fetchall(cursor, q))
+
 def get_deal_states(cursor):
     q = "SHOW COLUMNS FROM deals WHERE Field = 'state';"
     cursor.execute(q)
     tmp = cursor.fetchall()[0]['Type']
-    return (tmp)
+    return (tmp.split('(', 1)[1].split(')', 1)[0].replace("'", "").split(','))
 
 
 def find_next_bdcid(cursor, prefix):

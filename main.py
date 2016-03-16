@@ -74,11 +74,13 @@ def deal(did, session):
     devis = db.get_devis(cursor, did)
     users = db.get_users(cursor)
     deal_states = db.get_deal_states(cursor)
+    sites = db.get_sites(cursor)
     print deals
     print devis
     print users
     print deal_states
-    return bottle.template('deal', app=app, user_name=user_name, deal=deals[0], devis=devis, users=users, config=config, did=did);
+    print sites
+    return bottle.template('deal', app=app, user_name=user_name, deal=deals[0], devis=devis, users=users, config=config, did=did, deal_states=deal_states, sites=sites);
 
 @app.route('/login', method='GET', name='login')
 def login(session):

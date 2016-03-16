@@ -2,46 +2,25 @@
 
 <script>
 
-function callback()
-{
-	$("#btn-edit").click(function(){
-	
-		$(".editable").each(function(index, value){
-		    var $input = $("<input>", {
-           	    	id: $(this).attr('id'),
-           	    	val: $(this).text(),
-	            	type: "text"
-		    });
-		    $(this).replaceWith($input);
-		});
-	
-		$(".selectable").each(function(index, value){
-		    v = $(this).text();
-		    var $input = $("<select>", {
-           	    	id: $(this).attr('id')
-		    });
+var g_deal_states = [];
+% for d in deal_states:
+  g_deal_states.push('{{d}}');
+% end
 
-		    var i = 0;
+var g_users = {};
+% for u in users:
+  g_users[{{u['id']}}] = '{{u['fullname']}}';
+% end
 
-		    % for u in users:
-
-		        var o = new Option("{{u['fullname']}}", "{{u['id']}}");
-		    	$(o).html("{{u['fullname']}}");
-		    	$input.append(o);
-			if ($(this).attr('bid') == {{u['id']}})
-			{
-				$(o).attr("selected", true);
-			}
-			i++;
-
-		    % end		    
-		    $(this).replaceWith($input);
-
-		});
-	});
-}
+var g_sites = {};
+var g_sites_pic = {};
+% for s in sites:
+  g_sites[{{s['id']}}] = '{{s['name']}}';
+  g_sites_pic[{{s['id']}}] = '{{s['pic']}}';
+% end
 
 </script>
+<script src="/static/js/deal.js"></script>
 
     <div class="container">
 
@@ -55,7 +34,7 @@ function callback()
             </div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> <img alt="{{deal['site_name']}}" title="{{deal['site_name']}}" src="{{deal['site_pic']}}" class="img-circle img-responsive"> </div>
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="{{deal['site_name']}}" title="{{deal['site_name']}}" src="{{deal['site_pic']}}" id='site_pic' class="img-circle img-responsive"> </div>
                 <div class=" col-md-9 col-lg-9 "> 
                   <table class="table table-user-information">
                     <tbody>
@@ -65,19 +44,19 @@ function callback()
                       </tr>
                       <tr>
                         <td>Site:</td>
-                        <td><span id='f_site_name' class='editable'>{{deal['site_name']}}</span></td>
+                        <td><span id='f_site_name' bid='{{deal['site_id']}}' class='selectable site'>{{deal['site_name']}}</span></td>
                       </tr>
                       <tr>
                         <td>Creator:</td>
-                        <td><span id='f_creator_name' bid='{{deal['creator_id']}}' class='selectable'>{{deal['creator_name']}}</span></td>
+                        <td><span id='f_creator_name' bid='{{deal['creator_id']}}' class='selectable user'>{{deal['creator_name']}}</span></td>
                       </tr>
                       <tr>
                         <td>Validator:</td>
-                        <td><span id='f_validator_name' bid='{{deal['validator_id']}}' class='selectable'>{{deal['validator_name']}}</span></td>
+                        <td><span id='f_validator_name' bid='{{deal['validator_id']}}' class='selectable user'>{{deal['validator_name']}}</span></td>
                       </tr>
 		      <tr>
                         <td>State</td>
-                        <td><span id='f_state' class='selectable'>{{deal['state']}}</span></td>
+                        <td><span id='f_state' class='selectable deal_state'>{{deal['state']}}</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -87,6 +66,7 @@ function callback()
             <div class="panel-footer">
               <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
               <span class="pull-right">
+                <a href="#" data-original-title="Update this entry" data-toggle="tooltip" type="button" class="btn btn-sm btn-success" id="btn-valid"><i class="glyphicon glyphicon-ok"></i></a>
                 <a href="#" data-original-title="Edit this entry" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning" id="btn-edit"><i class="glyphicon glyphicon-edit"></i></a>
                 <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
               </span>
