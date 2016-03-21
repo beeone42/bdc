@@ -39,6 +39,5 @@ def r_api(app, config, db, cursor):
     def api_deal_update(did, session):
         assert isinstance(did, int)
         check_session(app, session)
-        deals = db.get_deals(cursor, did)
-        return dict(data=deals)
-
+        db.update_deal(cursor, did, bottle.request.forms.get('bdcid'), bottle.request.forms.get('site_id'), bottle.request.forms.get('creator_id'), bottle.request.forms.get('validator_id'), bottle.request.forms.get('state'))
+        return dict(success=True)

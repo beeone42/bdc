@@ -38,6 +38,19 @@ LEFT JOIN sites ON sites.id = deals.site
         q = q + " WHERE deals.id = '" + str(id) + "'"
     return (fetchall(cursor, q))
 
+def update_deal(cursor, id, bdcid, site_id, creator_id, validator_id, state):
+    q = """
+UPDATE deals SET
+    bdcid = %s,
+    site = %s,
+    creator = %s,
+    validator = %s,
+    state = %s
+WHERE
+    id = %s
+    """
+    return (cursor.execute(q, (bdcid, site_id, creator_id, validator_id, state, id)))
+
 def get_devis(cursor, did = 0, id = 0):
     q = """
 SELECT

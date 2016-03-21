@@ -19,6 +19,8 @@ var g_sites_pic = {};
   g_sites_pic[{{s['id']}}] = '{{s['pic']}}';
 % end
 
+var g_deal_id = '{{did}}'
+
 </script>
 <script src="/static/js/deal.js"></script>
 

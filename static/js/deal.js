@@ -84,24 +84,23 @@ function callback()
 
     $("#btn-valid").click(function(){
 
-	$("#btn-valid").css("display", "none");
-	$("#btn-edit").css("display", "inline");
-
 	jQuery.ajax({
 	    type: 'POST',
-	    url: '/ajax',
+	    url: '/api/deal/' + g_deal_id,
 	    data: {
 		bdcid: $('#f_bdcid').val(),
 		creator_id: $('#f_creator_name').val(),
 		validator_id: $('#f_validator_name').val(),
-		state: $('#f_state').val()
+		state: $('#f_state').val(),
+		site_id: $('#f_site_name').val()
 	    },
 	    success: function(data, textStatus, jqXHR) {
-		data = JSON.parse(data);
+		//data = JSON.parse(data);
 		console.log("success", data);
-		if(data.success)
+		if (data.success)
 		{
-		    ;
+		    $("#btn-valid").css("display", "none");
+		    document.location = "/deal/" + g_deal_id;
 		}
 		else
 		{
