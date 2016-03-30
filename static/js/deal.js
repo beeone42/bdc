@@ -1,8 +1,11 @@
 
 function deal_edit()
 {
+//    $("#btn-edit").css("visibility", "hidden");
+//    $("#btn-valid").css("visibility", "visible");
+    
+    $("#btn-valid").css("display", "block");
     $("#btn-edit").css("display", "none");
-    $("#btn-valid").css("display", "inline");
     
     $(".editable").each(function(index, value){
 	var $input = $("<input>", {
@@ -32,9 +35,21 @@ function deal_edit()
 	$input.on("change", function(){
 	    var id = $(this).val();
 	    $("#site_pic").attr("src", g_sites_pic[id]);
+
+
+	    jQuery.ajax({
+		type: 'GET',
+		url: '/api/deals/nextid/' + id,
+		success: function(data, textStatus, jqXHR) {
+		    $("#f_bdcid").val(data.data);
+		    console.log("success", data);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+		    console.log(textStatus);
+		}
+	    });
 	});
 	$(this).replaceWith($input);
-	
     });
     
     $(".selectable.user").each(function(index, value){
@@ -111,7 +126,6 @@ function deal_valid()
 
 function callback()
 {
-    $("#btn-valid").css("display", "none");
     $("#btn-edit").click(function(){
 	deal_edit();
     });

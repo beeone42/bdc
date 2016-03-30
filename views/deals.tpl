@@ -22,6 +22,7 @@
   <thead>
     <tr>
       <th>Id</th>
+      <th>Site</th> 
       <th>BDCID</th>
       <th>Descr</th>
       <th>Creator</th> 
@@ -34,6 +35,7 @@
 
   <tfoot>
       <th>Id</th>
+      <th>Site</th> 
       <th>BDCID</th>
       <th>Descr</th>
       <th>Creator</th> 
@@ -57,8 +59,7 @@ function callback()
 	                $(nTd).html("<a href='/deal/"+oData.id+"'>" + oData.id + "</a>");
 		    }
 	    },
-
-
+	    { data: "site_name" },
 	    { data: "bdcid",
 	            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 	                $(nTd).html("<a href='/deal/"+oData.id+"'>" + oData.bdcid + "</a>");

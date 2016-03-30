@@ -70,11 +70,10 @@ var g_deal_id = '{{did}}'
               </div>
             </div>
             <div class="panel-footer">
-              <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+	      <a href="/deals" data-original-title="Back to deals" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-arrow-left"></i></a>
               <span class="pull-right">
-                <a href="#" data-original-title="Update this entry" data-toggle="tooltip" type="button" class="btn btn-sm btn-success" id="btn-valid"><i class="glyphicon glyphicon-ok"></i></a>
-                <a href="#" data-original-title="Edit this entry" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning" id="btn-edit"><i class="glyphicon glyphicon-edit"></i></a>
-                <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                <a href="#" data-original-title="Update this entry" data-toggle="tooltip" type="button" class="btn btn-sm btn-success" id="btn-valid" style="display: none;"><i class="glyphicon glyphicon-ok"></i></a>
+                <a href="#" data-original-title="Edit this entry" data-toggle="tooltip" type="button" class="btn btn-sm btn-info" id="btn-edit"><i class="glyphicon glyphicon-edit"></i></a>
               </span>
             </div><!-- /panel-footer -->
           </div><!-- /panel panel-info -->
