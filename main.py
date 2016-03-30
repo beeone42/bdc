@@ -20,9 +20,9 @@ config = read_config("config.json")
 print config
 my, cursor = db.connect(config['mysql']['host'],config['mysql']['user'],config['mysql']['pass'],config['mysql']['db'])
 
-r_api(app, config, db, cursor)
-r_login(app, config, db, cursor)
-r_deal(app, config, db, cursor)
+r_api(app, config, db, my, cursor)
+r_login(app, config, db, my, cursor)
+r_deal(app, config, db, my, cursor)
 
 @app.route('/', name='index')
 def index(session):

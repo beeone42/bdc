@@ -4,7 +4,7 @@ import db
 import json
 from utils import *
 
-def r_api(app, config, db, cursor):
+def r_api(app, config, db, my, cursor):
     @app.route('/api/devis', method='GET', name='api_devis')
     @app.route('/api/devis/', method='GET', name='api_devis')
     def api_devis(session):
@@ -35,9 +35,23 @@ def r_api(app, config, db, cursor):
         deals = db.get_deals(cursor, did)
         return dict(data=deals)
 
+    @app.route('/api/deals/nextid/<site_id:int>', method='GET')
+    def api_deals_next_id(site_id, session):
+        assert isinstance(site_id, int)
+        check_session(app, session)
+        res = db.find_next_bdcid(cursor, site_id)
+        print res
+        return dict(data=res)
+
     @app.route('/api/deal/<did:int>', method='POST', name='api_deal_update')
     def api_deal_update(did, session):
         assert isinstance(did, int)
         check_session(app, session)
-        db.update_deal(cursor, did, bottle.request.forms.get('bdcid'), bottle.request.forms.get('site_id'), bottle.request.forms.get('creator_id'), bottle.request.forms.get('validator_id'), bottle.request.forms.get('state'))
-        return dict(success=True)
+        res = db.update_deal(my, cursor, did,
+                             bottle.request.forms.get('bdcid'),
+                             bottle.request.forms.get('description'),
+                             bottle.request.forms.get('site_id'),
+                             bottle.request.forms.get('creator_id'),
+                             bottle.request.forms.get('validator_id'),
+                             bottle.request.forms.get('state'))
+        return dict(success=True, res=res)

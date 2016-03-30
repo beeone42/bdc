@@ -45,6 +45,10 @@ var g_deal_id = '{{did}}'
                         <th><span id='f_bdcid' class='editable'>{{deal['bdcid']}}</span></th>
                       </tr>
                       <tr>
+                        <td>Description</td>
+                        <td><span id='f_description' class='editable'>{{deal['description']}}</span></td>
+                      </tr>
+                      <tr>
                         <td>Site:</td>
                         <td><span id='f_site_name' bid='{{deal['site_id']}}' class='selectable site'>{{deal['site_name']}}</span></td>
                       </tr>
@@ -76,6 +80,8 @@ var g_deal_id = '{{did}}'
           </div><!-- /panel panel-info -->
         </div><!-- /col-lg-10 -->
       </div><!-- /row -->
+
+% if did > 0:
 
 <!-- devis -->
 
@@ -117,7 +123,7 @@ var g_deal_id = '{{did}}'
         </div><!-- /col-lg-11 -->
       </div><!-- /row -->
 
-
+% end
 
 
     </div><!-- /container -->

@@ -4,7 +4,7 @@ import db
 import json
 from utils import *
 
-def r_deal(app, config, db, cursor):
+def r_deal(app, config, db, my, cursor):
     @app.route('/deals', name='deals')
     def deals(session):
         user_name = check_session(app, session)
@@ -19,14 +19,19 @@ def r_deal(app, config, db, cursor):
     def deal(did, session):
         user_name = check_session(app, session)
         assert isinstance(did, int)
-        deals = db.get_deals(cursor, did)
-        devis = db.get_devis(cursor, did)
         users = db.get_users(cursor)
         deal_states = db.get_deal_states(cursor)
         sites = db.get_sites(cursor)
-        print deals
-        print devis
-        print users
-        print deal_states
-        print sites
-        return bottle.template('deal', app=app, user_name=user_name, deal=deals[0], devis=devis, users=users, config=config, did=did, deal_states=deal_states, sites=sites);
+        print (users, deal_states, sites)
+        d = { 'description': '', 'bdcid':db.find_next_bdcid(cursor, sites[0]['id']), \
+              'site_name': sites[0]['name'], 'site_pic':sites[0]['pic'], 'site_id':sites[0]['id'], \
+              'creator_id':users[0]['id'], 'creator_name':users[0]['fullname'], \
+              'validator_id':users[0]['id'], 'validator_name':users[0]['fullname'], \
+              'state':deal_states[0] }
+        devis = 0
+        if (did > 0):
+            deals = db.get_deals(cursor, did)
+            devis = db.get_devis(cursor, did)
+            print (deals, devis)
+            d = deals[0]
+        return bottle.template('deal', app=app, user_name=user_name, deal=d, devis=devis, users=users, config=config, did=did, deal_states=deal_states, sites=sites);

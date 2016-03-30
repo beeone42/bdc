@@ -1,5 +1,8 @@
 import pymysql
 
+conn = ''
+cursor = ''
+
 def connect(host, user, passwd, base):
     conn = pymysql.connect(host=host,user=user,passwd=passwd, database=base, cursorclass=pymysql.cursors.DictCursor)
     cursor = conn.cursor()
@@ -38,10 +41,24 @@ LEFT JOIN sites ON sites.id = deals.site
         q = q + " WHERE deals.id = '" + str(id) + "'"
     return (fetchall(cursor, q))
 
-def update_deal(cursor, id, bdcid, site_id, creator_id, validator_id, state):
+def insert_deal(conn, cursor, bdcid, description, site_id, creator_id, validator_id, state):
+    q = """
+INSERT INTO deals (bdcid, description, site, creator, validator, state) VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    cursor.execute(q, (bdcid, description, site_id, creator_id, validator_id, state))
+    q = "SELECT LAST_INSERT_ID() AS id"
+    cursor.execute(q)
+    conn.commit()
+    tmp = cursor.fetchall()
+    return tmp[0]['id']
+
+def update_deal(conn, cursor, id, bdcid, description, site_id, creator_id, validator_id, state):
+    if (id == 0):
+        return (insert_deal(conn, cursor, bdcid, description, site_id, creator_id, validator_id, state))
     q = """
 UPDATE deals SET
     bdcid = %s,
+    description = %s,
     site = %s,
     creator = %s,
     validator = %s,
@@ -49,7 +66,9 @@ UPDATE deals SET
 WHERE
     id = %s
     """
-    return (cursor.execute(q, (bdcid, site_id, creator_id, validator_id, state, id)))
+    cursor.execute(q, (bdcid, description, site_id, creator_id, validator_id, state, id))
+    conn.commit()
+    return id
 
 def get_devis(cursor, did = 0, id = 0):
     q = """
@@ -108,12 +127,14 @@ def get_deal_states(cursor):
     return (tmp.split('(', 1)[1].split(')', 1)[0].replace("'", "").split(','))
 
 
-def find_next_bdcid(cursor, prefix):
+def find_next_bdcid(cursor, site_id):
     q = """
 SELECT
-    deals.bdcid,
+    COUNT(deals.id) AS m
 FROM deals
-WHERE deals.bdcid LIKE %s
+    WHERE deals.site = %s
     """
-    cursor.execute(q, [prefix + '%'])
-    return (cursor.fetchall())
+    cursor.execute(q, [site_id])
+    res = cursor.fetchall()
+    id = res[0]['m'] + 1
+    return ('42.' + str(site_id) + '.' + str(id / 256) + '.' + str(id % 256))

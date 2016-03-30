@@ -1,7 +1,10 @@
 % include('head.inc.tpl', title='Page Title')
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Deals</h1>
+                    <h1 class="page-header">
+		    	Deals
+			<a href="/deal/0" data-original-title="Add a deal" data-toggle="tooltip" type="button" class="pull-right btn btn-sm btn-success" id="btn-plus"><i class="glyphicon glyphicon-plus"></i></a>
+		    </h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

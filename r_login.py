@@ -3,7 +3,7 @@ import bottle
 import db
 import json
 
-def r_login(app, config, db, cursor):
+def r_login(app, config, db, my, cursor):
     @app.route('/login', method='GET', name='login')
     def login(session):
         return bottle.template('login', app=app, user_name='login', config=config)
