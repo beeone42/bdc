@@ -95,24 +95,9 @@
                             </div>
                             <!-- /input-group -->
                         </li>
-                        <li>
-                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="/deals"><i class="fa fa-dashboard fa-fw"></i> Deals</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+                        <li><a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
+                        <li><a href="/deals"><i class="fa fa-exchange fa-fw"></i> Deals</a></li>
+                        <li><a href="/contractors"><i class="fa fa-users fa-fw"></i> Contractors</a></li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

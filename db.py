@@ -70,6 +70,47 @@ WHERE
     conn.commit()
     return id
 
+def get_contractors(cursor, id = 0):
+    q = """
+SELECT
+    contractors.id,
+    contractors.enterprise,
+    contractors.contact_name,
+    contractors.contact_tel,
+    contractors.contact_mail
+FROM contractors
+    """
+    if (id > 0):
+        q = q + " WHERE contractors.id = '" + str(id) + "'"
+    return (fetchall(cursor, q))
+
+def insert_contractor(conn, cursor, enterprise, contact_name, contact_tel, contact_mail):
+    q = """
+INSERT INTO contractors (enterprise, contact_name, contact_tel, contact_mail) VALUES (%s, %s, %s, %s)
+    """
+    cursor.execute(q, (enterprise, contact_name, contact_tel, contact_mail))
+    q = "SELECT LAST_INSERT_ID() AS id"
+    cursor.execute(q)
+    conn.commit()
+    tmp = cursor.fetchall()
+    return tmp[0]['id']
+
+def update_contractor(conn, cursor, id, enterprise, contact_name, contact_tel, contact_mail):
+    if (id == 0):
+        return (insert_contractor(conn, cursor, enterprise, contact_name, contact_tel, contact_mail))
+    q = """
+UPDATE contractors SET
+    enterprise = %s,
+    contact_name = %s,
+    contact_tel = %s,
+    contact_mail = %s
+WHERE
+    id = %s
+    """
+    cursor.execute(q, (enterprise, contact_name, contact_tel, contact_mail, id))
+    conn.commit()
+    return id
+
 def get_devis(cursor, did = 0, id = 0):
     q = """
 SELECT

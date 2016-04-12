@@ -55,3 +55,21 @@ def r_api(app, config, db, my, cursor):
                              bottle.request.forms.get('validator_id'),
                              bottle.request.forms.get('state'))
         return dict(success=True, res=res)
+
+    @app.route('/api/contractors', method='GET', name='api_contractors')
+    @app.route('/api/contractors/', method='GET', name='api_contractors')
+    def api_contractors(session):
+        check_session(app, session)
+        contractors = db.get_contractors(cursor)
+        return dict(data=contractors)
+
+    @app.route('/api/contractor/<cid:int>', method='POST', name='api_contractor_update')
+    def api_contractor_update(cid, session):
+        assert isinstance(cid, int)
+        check_session(app, session)
+        res = db.update_contractor(my, cursor, cid,
+                             bottle.request.forms.get('enterprise'),
+                             bottle.request.forms.get('contact_name'),
+                             bottle.request.forms.get('contact_tel'),
+                             bottle.request.forms.get('contact_mail'))
+        return dict(success=True, res=res)
