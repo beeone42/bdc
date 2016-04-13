@@ -88,7 +88,10 @@ var g_deal_id = '{{did}}'
         <div class="col-lg-10" >
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title">DEVIS</h3>
+              <h3 class="panel-title">
+	      	  DEVIS
+		  <a href="/devis/{{did}}/0" data-original-title="Add a devis" data-toggle="tooltip" type="button" class="pull-right btn btn-xs" id="btn-plus"><i class="glyphicon glyphicon-plus"></i></a>
+	      </h3>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -105,7 +108,7 @@ var g_deal_id = '{{did}}'
 		      % for d in devis:
                       <tr>
                         <td>{{d['id']}}</td>
-                        <td>{{d['issuer']}}</td>
+                        <td><a href='/devis/{{did}}/{{d['id']}}'>{{d['issuer']}}</a></td>
                         <td>{{d['amount']}}</td>
                         <td>{{d['d_received']}}</td>
                         <td>{{d['state']}}</td>

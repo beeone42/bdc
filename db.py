@@ -116,17 +116,22 @@ def get_devis(cursor, did = 0, id = 0):
 SELECT
     devis.id,
     devis.deal_id,
-    devis.issuer,
+    devis.contractor_id,
     devis.amount,
     DATE_FORMAT(devis.date_received, '%Y-%m-%d %H:%i') AS d_received,
     DATE_FORMAT(devis.date_proceed, '%Y-%m-%d %H:%i') AS d_proceed,
     devis.state,
     deals.bdcid,
+    deals.description,
     sites.name AS site_name,
-    sites.id AS site_id
+    sites.id AS site_id,
+    contractors.id AS contractor_id,
+    contractors.enterprise AS issuer,
+    contractors.contact_name
 FROM devis
 LEFT JOIN deals ON deals.id = devis.deal_id
 LEFT JOIN sites ON sites.id = deals.site
+LEFT JOIN contractors ON contractors.id = devis.contractor_id
     """
     if (did > 0):
         q = q + " WHERE devis.deal_id = '" + str(did) + "'"
@@ -136,6 +141,34 @@ LEFT JOIN sites ON sites.id = deals.site
         if (id > 0):
             q = q + " WHERE devis.id = '" + str(id) + "'"
     return (fetchall(cursor, q))
+
+def insert_devis(conn, cursor, deal_id, contractor_id, amount, date_received, state):
+    q = """
+INSERT INTO devis (deal_id, contractor_id, amount, date_received, state) VALUES (%s, %s, %s, %s, %s)
+    """
+    cursor.execute(q, (deal_id, contractor_id, amount, date_received, state))
+    q = "SELECT LAST_INSERT_ID() AS id"
+    cursor.execute(q)
+    conn.commit()
+    tmp = cursor.fetchall()
+    return tmp[0]['id']
+
+def update_devis(conn, cursor, id, deal_id, contractor_id, amount, date_received, state):
+    if (id == 0):
+        return (insert_devis(conn, cursor, deal_id, contractor_id, amount, date_received, state))
+    q = """
+UPDATE devis SET
+    deal_id = %s,
+    contractor_id = %s,
+    amount = %s,
+    date_received = %s,
+    state = %s
+WHERE
+    id = %s
+    """
+    cursor.execute(q, (deal_id, contractor_id, amount, date_received, state, id))
+    conn.commit()
+    return id
 
 def get_users(cursor, id = 0):
     q = """
@@ -163,6 +196,12 @@ FROM sites
 
 def get_deal_states(cursor):
     q = "SHOW COLUMNS FROM deals WHERE Field = 'state';"
+    cursor.execute(q)
+    tmp = cursor.fetchall()[0]['Type']
+    return (tmp.split('(', 1)[1].split(')', 1)[0].replace("'", "").split(','))
+
+def get_devis_states(cursor):
+    q = "SHOW COLUMNS FROM devis WHERE Field = 'state';"
     cursor.execute(q)
     tmp = cursor.fetchall()[0]['Type']
     return (tmp.split('(', 1)[1].split(')', 1)[0].replace("'", "").split(','))

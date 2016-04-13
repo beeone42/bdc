@@ -82,7 +82,7 @@ function deal_edit()
 	    var o = new Option(g_deal_states[i]);
 	    $(o).html(g_deal_states[i]);
 	    $input.append(o);
-	    if ($(this).val() == g_deal_states[i])
+	    if (v == g_deal_states[i])
 	    {
 		$(o).attr("selected", true);
 	    }

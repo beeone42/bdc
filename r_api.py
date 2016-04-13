@@ -73,3 +73,15 @@ def r_api(app, config, db, my, cursor):
                              bottle.request.forms.get('contact_tel'),
                              bottle.request.forms.get('contact_mail'))
         return dict(success=True, res=res)
+    
+    @app.route('/api/devis/<did:int>/<deid:int>', method='POST', name='api_devis_update')
+    def api_contractor_update(did, deid, session):
+        assert isinstance(did, int)
+        assert isinstance(deid, int)
+        check_session(app, session)
+        res = db.update_devis(my, cursor, deid, did,
+                             bottle.request.forms.get('contractor_id'),
+                             bottle.request.forms.get('amount'),
+                             bottle.request.forms.get('date_received'),
+                             bottle.request.forms.get('state'))
+        return dict(success=True, res=res)

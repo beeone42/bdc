@@ -7,6 +7,8 @@ from r_api import r_api
 from r_login import r_login
 from r_deal import r_deal
 from r_contractors import r_contractors
+from r_devis import r_devis
+
 from utils import *
 
 def read_config(confname):
@@ -25,6 +27,7 @@ r_api(app, config, db, my, cursor)
 r_login(app, config, db, my, cursor)
 r_deal(app, config, db, my, cursor)
 r_contractors(app, config, db, my, cursor)
+r_devis(app, config, db, my, cursor)
 
 @app.route('/', name='index')
 def index(session):
