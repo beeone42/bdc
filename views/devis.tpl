@@ -44,7 +44,7 @@ var g_contractors = {};
                       </tr>
                       <tr>
                         <td>Amount</td>
-                        <td><span id='f_amount' class='editable'>{{devis['amount']}}</span></td>
+                        <td><span id='f_amount' class='editable'>{{devis['amount']}}</span> {{devis['currency']}}</td>
                       </tr>
                       <tr>
                         <td>Date Received</td>
@@ -70,6 +70,56 @@ var g_contractors = {};
           </div><!-- /panel panel-info -->
         </div><!-- /col-lg-10 -->
       </div><!-- /row -->
+
+
+% if deid > 0:
+
+<!-- docs -->
+
+      <div class="row">
+        <div class="col-lg-10" >
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+	      	  DOCS
+		  <a href="/docs/{{did}}/{{deid}}/0" data-original-title="Add a devis" data-toggle="tooltip" type="button" class="pull-right btn btn-xs" id="btn-plus"><i class="glyphicon glyphicon-plus"></i></a>
+	      </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class=" col-md-10 col-lg-10 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <th>id</th>
+                        <th>type</th>
+                        <th>date</th>
+                        <th>file</th>
+                      </tr>
+		      % for d in docs:
+                      <tr>
+                        <td>{{d['id']}}</td>
+                        <td>{{d['doc_type']}}</td>
+                        <td>{{d['d_received']}}</td>
+                        <td><a href='static/docs/{{did}}/{{deid}}/{{d['fname']}}'>{{d['fname']}}</a></td>
+                      </tr>
+		      % end
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="panel-footer">
+            </div><!-- /panel-footer -->
+          </div><!-- /panel panel-info -->
+        </div><!-- /col-lg-11 -->
+      </div><!-- /row -->
+
+
+
+% end
+
+
 
     </div><!-- /container -->
 % include('foot.inc.tpl')

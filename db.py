@@ -31,7 +31,8 @@ SELECT
     users2.fullname AS validator_name,
     deals.site AS site_id,
     sites.name AS site_name,
-    sites.pic AS site_pic
+    sites.pic AS site_pic,
+    sites.currency
 FROM deals
 LEFT JOIN users AS users1 ON users1.id = deals.creator
 LEFT JOIN users AS users2 ON users2.id = deals.validator
@@ -125,6 +126,7 @@ SELECT
     deals.description,
     sites.name AS site_name,
     sites.id AS site_id,
+    sites.currency,
     contractors.id AS contractor_id,
     contractors.enterprise AS issuer,
     contractors.contact_name
@@ -170,6 +172,52 @@ WHERE
     conn.commit()
     return id
 
+
+def get_docs(cursor, id = 0, deal_id = 0, devis_id = 0, bdc_id = 0, invoice_id = 0):
+    q = """
+SELECT
+    docs.id,
+    deals.bdcid,
+    deals.description,
+    docs.deal_id,
+    docs.devis_id,
+    docs.fname,
+    DATE_FORMAT(docs.date_received, '%Y-%m-%d %H:%i') AS d_received,
+    docs.doc_type,
+    sites.name AS site_name,
+    contractors.enterprise AS contractor,
+    contractors.contact_name AS contractor_contact
+FROM docs
+LEFT JOIN deals ON deals.id = docs.deal_id
+LEFT JOIN devis ON devis.id = docs.devis_id
+LEFT JOIN sites ON sites.id = deals.site
+LEFT JOIN contractors ON contractors.id = devis.contractor_id
+    """
+    if (id > 0):
+        q = q + " WHERE docs.id = '" + str(id) + "'"
+    else:
+        if (deal_id > 0):
+            q = q + " WHERE docs.deal_id = '" + str(deal_id) + "'"
+            if (devis_id > 0):
+                q = q + " AND docs.devis_id = '" + str(devis_id) + "'"
+            if (bdc_id > 0):
+                q = q + " AND docs.bdc_id = '" + str(bdc_id) + "'"
+            if (invoice_id > 0):
+                q = q + " AND docs.invoice_id = '" + str(invoice_id) + "'"
+    return (fetchall(cursor, q))
+
+
+def insert_doc(conn, cursor, deal_id, devis_id, bdc_id, invoice_id, contractor_id, fname, doc_type):
+    q = """
+INSERT INTO devis (deal_id, devis_id, bdc_id, invoice_id, contractor_id, fname, date_received, doc_type) VALUES (%s, %s, %s, %s, %s, %s, NOW(), %s)
+    """
+    cursor.execute(q, (deal_id, devis_id, bdc_id, invoice_id, contractor_id, fname, doc_type))
+    q = "SELECT LAST_INSERT_ID() AS id"
+    cursor.execute(q)
+    conn.commit()
+    tmp = cursor.fetchall()
+    return tmp[0]['id']
+
 def get_users(cursor, id = 0):
     q = """
 SELECT
@@ -187,7 +235,8 @@ def get_sites(cursor, id = 0):
 SELECT
     sites.id,
     sites.name,
-    sites.pic
+    sites.pic,
+    sites.currency
 FROM sites
     """
     if (id > 0):
