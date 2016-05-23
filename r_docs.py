@@ -22,8 +22,8 @@ def r_docs(app, config, db, my, cursor):
         doc_type   = bottle.request.forms.get('doc_type')
         upload     = bottle.request.files.get('upload')
         name, ext  = os.path.splitext(upload.filename)
-        if ext not in ('.pdf', '.png','.jpg','.jpeg'):
-            return 'File extension not allowed.'
+        if ext.lower() not in doc_exts():
+            return 'File extension %s not allowed, must be in %s.' % (ext, ', '.join(doc_exts()))
         save_path = doc_path(did, deid)
         if not os.path.exists(save_path):
             os.makedirs(save_path)
@@ -35,5 +35,20 @@ def r_docs(app, config, db, my, cursor):
         db.insert_doc(my, cursor, did, deid, upload.filename, doc_type)    
         bottle.redirect("/devis/%s/%s" % (did, deid))
 
+    @app.route('/docs/<did:int>/<deid:int>/<docid:int>/del', method='GET', name='del_doc')
+    def del_doc(did, deid, docid, session):
+        user_name = check_session(app, session)
+        assert isinstance(did, int)
+        doc = db.get_docs(cursor, docid)
+        fname = "%s/%s" % (doc_path(did, deid), doc[0]['fname'])
+        print "unlink %s" % fname
+        if os.path.exists(fname):
+            os.unlink(fname)
+        db.del_doc(my, cursor, did, deid, docid)
+        bottle.redirect("/devis/%s/%s" % (did, deid))
+
     def doc_path(did, deid):
         return ("static/docs/%s/%s/" % (did, deid))
+
+    def doc_exts():
+        return (('.pdf', '.png','.jpg','.jpeg', '.xls', '.xlsx'))

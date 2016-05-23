@@ -50,6 +50,24 @@ function devis_edit()
 	$(this).replaceWith($input);
     });
     
+    $(".selectable.date").each(function(index, value){
+	v = $(this).text();
+	var $div = $("<div>", { class: "input-group date col-md-3 col-lg-3" });
+	var $input = $("<input>", {
+            id: $(this).attr('id'),
+            val: $(this).text(),
+	    type: "text",
+	    class: "form-control"
+	});
+	var $span = $("<span>", { class: "input-group-addon" });
+	var $i = $("<i>", { class: "fa fa-calendar", 'aria-hidden': "true" });
+	$span.append($i);
+	$div.append($input);
+	$div.append($span);
+	$(this).replaceWith($div);
+	$div.datepicker({format: "yyyy-mm-dd", autoclose: true, todayHighlight: true, todayBtn: "linked"});
+    });
+    
 
     
 }
@@ -72,6 +90,7 @@ function devis_valid()
 	    {
 		$("#btn-valid").css("display", "none");
 		document.location = "/devis/" + g_deal_id + "/" + data.res;
+		//document.location = "/deal/" + g_deal_id;
 	    }
 	    else
 	    {

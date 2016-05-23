@@ -75,7 +75,7 @@ def r_api(app, config, db, my, cursor):
         return dict(success=True, res=res)
     
     @app.route('/api/devis/<did:int>/<deid:int>', method='POST', name='api_devis_update')
-    def api_contractor_update(did, deid, session):
+    def api_devis_update(did, deid, session):
         assert isinstance(did, int)
         assert isinstance(deid, int)
         check_session(app, session)

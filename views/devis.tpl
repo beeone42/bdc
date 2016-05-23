@@ -48,7 +48,7 @@ var g_contractors = {};
                       </tr>
                       <tr>
                         <td>Date Received</td>
-                        <td><span id='f_date_received' class='editable'>{{devis['d_received']}}</span></td>
+                        <td><span id='f_date_received' class='selectable date'>{{devis['d_received']}}</span></td>
                       </tr>
                       <tr>
                         <td>State</td>
@@ -95,6 +95,7 @@ var g_contractors = {};
                         <th>type</th>
                         <th>date</th>
                         <th>file</th>
+                        <th>action</th>
                       </tr>
 		      % for d in docs:
                       <tr>
@@ -102,6 +103,11 @@ var g_contractors = {};
                         <td>{{d['doc_type']}}</td>
                         <td>{{d['d_received']}}</td>
                         <td><a href='../../static/docs/{{did}}/{{deid}}/{{d['fname']}}'>{{d['fname']}}</a></td>
+			<td>
+			  <a href='/docs/{{did}}/{{deid}}/{{d['id']}}/del'>
+			    <i class="fa fa-trash" aria-hidden="true" alt='delete {{d['fname']}}' title='delete {{d['fname']}}'></i>
+			  </a>
+			</td>
                       </tr>
 		      % end
                     </tbody>

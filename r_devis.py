@@ -23,7 +23,7 @@ def r_devis(app, config, db, my, cursor):
             'd_received':'', \
             'state':'' }
         if (deid > 0):
-            d = db.get_devis(cursor, deid)
+            d = db.get_devis(cursor, did, deid)
             devis = d[0]
             print (devis)
         docs = db.get_docs(cursor, 0, did, deid)

@@ -173,7 +173,7 @@ WHERE
     return id
 
 
-def get_docs(cursor, id = 0, deal_id = 0, devis_id = 0, bdc_id = 0, invoice_id = 0):
+def get_docs(cursor, id = 0, deal_id = 0, devis_id = 0):
     q = """
 SELECT
     docs.id,
@@ -200,10 +200,6 @@ LEFT JOIN contractors ON contractors.id = devis.contractor_id
             q = q + " WHERE docs.deal_id = '" + str(deal_id) + "'"
             if (devis_id > 0):
                 q = q + " AND docs.devis_id = '" + str(devis_id) + "'"
-            if (bdc_id > 0):
-                q = q + " AND docs.bdc_id = '" + str(bdc_id) + "'"
-            if (invoice_id > 0):
-                q = q + " AND docs.invoice_id = '" + str(invoice_id) + "'"
     return (fetchall(cursor, q))
 
 
@@ -217,6 +213,16 @@ INSERT INTO docs (deal_id, devis_id, fname, date_received, doc_type) VALUES (%s,
     conn.commit()
     tmp = cursor.fetchall()
     return tmp[0]['id']
+
+def del_doc(conn, cursor, deal_id, devis_id, doc_id):
+    q = "DELETE FROM docs WHERE deal_id = %s AND devis_id = %s AND id = %s"
+    cursor.execute(q, (deal_id, devis_id, doc_id))
+    conn.commit()
+
+def del_docs(conn, cursor, deal_id, devis_id):
+    docs = get_docs(cursor, 0, deal_id, devis_id)
+    for doc in docs:
+        del_doc(conn, cursor, deal_id, devis_id, doc['id'])
 
 def get_users(cursor, id = 0):
     q = """

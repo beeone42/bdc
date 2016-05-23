@@ -21,6 +21,8 @@
     <script src="static/js/morris-data.js"></script>
 -->
 
+    <script src="/static/js/bootstrap-datepicker.min.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="/static/dist/js/sb-admin-2.js"></script>
 

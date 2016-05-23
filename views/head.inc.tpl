@@ -26,6 +26,9 @@
     <!-- Morris Charts CSS -->
     <link href="/static/bower_components/morrisjs/morris.css" rel="stylesheet">
 
+    <!-- datetime picker -->
+    <link href="/static/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
+    
     <!-- Custom Fonts -->
     <link href="/static/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
