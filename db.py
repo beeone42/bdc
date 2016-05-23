@@ -207,11 +207,11 @@ LEFT JOIN contractors ON contractors.id = devis.contractor_id
     return (fetchall(cursor, q))
 
 
-def insert_doc(conn, cursor, deal_id, devis_id, bdc_id, invoice_id, contractor_id, fname, doc_type):
+def insert_doc(conn, cursor, deal_id, devis_id, fname, doc_type):
     q = """
-INSERT INTO devis (deal_id, devis_id, bdc_id, invoice_id, contractor_id, fname, date_received, doc_type) VALUES (%s, %s, %s, %s, %s, %s, NOW(), %s)
+INSERT INTO docs (deal_id, devis_id, fname, date_received, doc_type) VALUES (%s, %s, %s, NOW(), %s)
     """
-    cursor.execute(q, (deal_id, devis_id, bdc_id, invoice_id, contractor_id, fname, doc_type))
+    cursor.execute(q, (deal_id, devis_id, fname, doc_type))
     q = "SELECT LAST_INSERT_ID() AS id"
     cursor.execute(q)
     conn.commit()
@@ -251,6 +251,12 @@ def get_deal_states(cursor):
 
 def get_devis_states(cursor):
     q = "SHOW COLUMNS FROM devis WHERE Field = 'state';"
+    cursor.execute(q)
+    tmp = cursor.fetchall()[0]['Type']
+    return (tmp.split('(', 1)[1].split(')', 1)[0].replace("'", "").split(','))
+
+def get_docs_types(cursor):
+    q = "SHOW COLUMNS FROM docs WHERE Field = 'doc_type';"
     cursor.execute(q)
     tmp = cursor.fetchall()[0]['Type']
     return (tmp.split('(', 1)[1].split(')', 1)[0].replace("'", "").split(','))

@@ -101,7 +101,7 @@ var g_contractors = {};
                         <td>{{d['id']}}</td>
                         <td>{{d['doc_type']}}</td>
                         <td>{{d['d_received']}}</td>
-                        <td><a href='static/docs/{{did}}/{{deid}}/{{d['fname']}}'>{{d['fname']}}</a></td>
+                        <td><a href='../../static/docs/{{did}}/{{deid}}/{{d['fname']}}'>{{d['fname']}}</a></td>
                       </tr>
 		      % end
                     </tbody>

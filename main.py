@@ -8,6 +8,7 @@ from r_login import r_login
 from r_deal import r_deal
 from r_contractors import r_contractors
 from r_devis import r_devis
+from r_docs import r_docs
 
 from utils import *
 
@@ -17,6 +18,7 @@ def read_config(confname):
         return (data)
 
 app = bottle.app()
+bottle.request.MEMFILE_MAX = 32 * 1024 * 1024
 plugin = bottle_session.SessionPlugin(cookie_lifetime=3600*24*7)
 app.install(plugin)
 config = read_config("config.json")
@@ -28,6 +30,7 @@ r_login(app, config, db, my, cursor)
 r_deal(app, config, db, my, cursor)
 r_contractors(app, config, db, my, cursor)
 r_devis(app, config, db, my, cursor)
+r_docs(app, config, db, my, cursor)
 
 @app.route('/', name='index')
 def index(session):
