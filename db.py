@@ -224,16 +224,24 @@ def del_docs(conn, cursor, deal_id, devis_id):
     for doc in docs:
         del_doc(conn, cursor, deal_id, devis_id, doc['id'])
 
-def get_users(cursor, id = 0):
+def get_users(cursor, id = 0, login = ''):
     q = """
 SELECT
     users.id,
     users.login,
+    users.password,
     users.fullname
 FROM users
     """
     if (id > 0):
-        q = q + " WHERE users.id = '" + str(id) + "'"
+        q = q + " WHERE users.id = %s"
+        cursor.execute(q, (id))
+        return (cursor.fetchall())
+    else:
+        if (login != ''):
+            q = q + " WHERE users.login = %s"
+            cursor.execute(q, (login))
+            return (cursor.fetchall())
     return (fetchall(cursor, q))
 
 def get_sites(cursor, id = 0):

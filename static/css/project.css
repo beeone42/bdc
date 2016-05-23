@@ -6,12 +6,6 @@
     margin-bottom: 0;
 }
 
-.dropdown-user {
-    margin: 13px 0;
-    padding: 5px;
-    height: 100%;
-}
-
 .dropdown-user:hover {
     cursor: pointer;
 }
@@ -29,5 +23,6 @@
     border-top: 0;
 }
 .toppad
-{margin-top:20px;
+{
+    margin-top:20px;
 }

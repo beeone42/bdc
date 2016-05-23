@@ -24,8 +24,9 @@ def r_devis(app, config, db, my, cursor):
             'state':'' }
         if (deid > 0):
             d = db.get_devis(cursor, did, deid)
-            devis = d[0]
-            print (devis)
+            if (len(d) > 0):
+                devis = d[0]
+                print (devis)
         docs = db.get_docs(cursor, 0, did, deid)
         print (docs)
         return bottle.template('devis', app=app, user_name=user_name, config=config, devis_states=devis_states, devis=devis, contractors=contractors, did=did, deid=deid, docs=docs);
